@@ -1,7 +1,3 @@
-Sure! Here is a sample README file for your Weather Dashboard project:
-
----
-
 # Weather Dashboard
 
 Welcome to the Weather Dashboard! This project is a simple yet beautiful web application that allows you to fetch and display current weather and a 5-day forecast for any city using the OpenWeatherMap API. Built with Bootstrap 5.3 for styling and Bootstrap Icons for weather icons, it provides a responsive and visually appealing user experience.
