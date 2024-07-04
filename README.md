@@ -86,10 +86,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@your_twitter](https://x.com/ankan_chkrbrty) - work.ankanchakraborty@gmail.com
+Your Name - [@Ankan Chakraborty](https://x.com/ankan_chkrbrty) - work.ankanchakraborty@gmail.com
 
-Project Link: [https://github.com/ankan-coder/weather-dashboard](https://github.com/your-username/weather-dashboard)
-
----
-
-Replace the placeholders (such as "your-username", "path/to/your/demo/image.gif", and your contact information) with the actual details. This README provides a comprehensive overview of the project, instructions for getting started, and information on customization and usage.
+Project Link: [https://github.com/ankan-coder/weather-dashboard](https://github.com/ankan-coder/weather-dashboard)
