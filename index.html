@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #72edf2 10%, #5151e5 100%);
+            color: #fff;
+        }
+
+        .weather-dashboard {
+            text-align: center;
+            margin: 40px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+
+        .city {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .temperature {
+            font-size: 24px;
+        }
+
+        .description,
+        .humidity,
+        .wind-speed {
+            font-size: 18px;
+        }
+
+        #weather-icon {
+            font-size: 50px;
+        }
+
+        .forecast-heading {
+            display: block;
+        }
+
+        #forecast {
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .forecast {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .forecast-item {
+            margin: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="mb-3">
+            <label for="cityInput" class="form-label">Enter City</label>
+            <div class="input-group">
+                <input type="text" id="cityInput" class="form-control" placeholder="City name">
+                <button class="btn btn-primary" onclick="getCity()">Get Weather</button>
+            </div>
+        </div>
+        <div id="weather-dashboard" class="weather-dashboard p-4 rounded shadow hidden">
+            <h1 id="city" class="city"></h1>
+            <h2 id="temperature" class="temperature"></h2>
+            <h2 id="description" class="description"></h2>
+            <h2 id="humidity" class="humidity"></h2>
+            <h2 id="wind-speed" class="wind-speed"></h2>
+            <div class='forecast-heading'>
+                <h2>5-Day Forecast</h2>
+            </div>
+            <div id="forecast">
+                <div class="forecast"></div>
+            </div>
+            <div id="weather-icon" class="mt-3"></div>
+        </div>
+    </div>
+
+    <script>
+        function getCity() {
+            const city = document.getElementById("cityInput").value;
+            if (city) {
+                getWeather(city);
+            } else {
+                alert("Please enter a city");
+            }
+        }
+
+        function getWeather(city) {
+            const apiKey = "166ac1de8ede9d59e70d99948edd1b25"; // Replace with your OpenWeatherMap API key
+
+            // Get current weather data
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+                .then((response) => response.json())
+                .then((data) => {
+                    const temperature = `${data.main.temp}°C`;
+                    const description = data.weather[0].description;
+                    const humidity = `${data.main.humidity}%`;
+                    const windSpeed = `${data.wind.speed} m/s`;
+                    const weatherIcon = getWeatherIcon(data.weather[0].icon);
+
+                    document.getElementById("city").innerHTML = "City: " + city;
+                    document.getElementById("temperature").innerHTML = "Temperature: " + temperature;
+                    document.getElementById("description").innerHTML = "Description: " + description;
+                    document.getElementById("humidity").innerHTML = "Humidity: " + humidity;
+                    document.getElementById("wind-speed").innerHTML = "Wind Speed: " + windSpeed;
+                    document.getElementById("weather-icon").innerHTML = `<i class="bi ${weatherIcon}"></i>`;
+
+                    document.getElementById("weather-dashboard").classList.remove("hidden");
+                })
+                .catch((error) => console.error(error));
+
+            // Get forecast data
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.list) {
+                        const forecastData = data.list.filter((item) =>
+                            item.dt_txt.endsWith("12:00:00")
+                        );
+                        let forecastHTML = "";
+                        forecastData.slice(0, 5).forEach((item) => {
+                            const date = new Date(item.dt_txt);
+                            const day = date.toLocaleDateString("en-US", { weekday: 'long' });
+                            const temp = `${item.main.temp}°C`;
+                            const desc = item.weather[0].description;
+                            const icon = getWeatherIcon(item.weather[0].icon);
+
+                            forecastHTML += `
+                                <div class="forecast-item">
+                                    <h3>${day}</h3>
+                                    <p>${date.toLocaleDateString()}</p>
+                                    <p><i class="bi ${icon}" style="font-size: 24px; color: #ffd700;"></i></p>
+                                    <p>Temperature: ${temp}</p>
+                                    <p>Description: ${desc}</p>
+                                </div>
+                            `;
+                        });
+                        document.getElementsByClassName("forecast")[0].innerHTML = forecastHTML;
+                    } else {
+                        console.log("No forecast data available");
+                    }
+                })
+                .catch((error) => console.error(error));
+        }
+
+        function getWeatherIcon(iconCode) {
+            const iconMapping = {
+                "01d": "bi-sun-fill text-warning",
+                "01n": "bi-moon-stars-fill text-secondary",
+                "02d": "bi-cloud-sun-fill text-warning",
+                "02n": "bi-cloud-moon-fill text-secondary",
+                "03d": "bi-cloud-fill text-secondary",
+                "03n": "bi-cloud-fill text-secondary",
+                "04d": "bi-clouds-fill text-secondary",
+                "04n": "bi-clouds-fill text-secondary",
+                "09d": "bi-cloud-drizzle-fill text-info",
+                "09n": "bi-cloud-drizzle-fill text-info",
+                "10d": "bi-cloud-rain-fill text-info",
+                "10n": "bi-cloud-rain-fill text-info",
+                "11d": "bi-cloud-lightning-fill text-warning",
+                "11n": "bi-cloud-lightning-fill text-warning",
+                "13d": "bi-cloud-snow-fill text-light",
+                "13n": "bi-cloud-snow-fill text-light",
+                "50d": "bi-cloud-haze-fill text-secondary",
+                "50n": "bi-cloud-haze-fill text-secondary"
+            };
+            return iconMapping[iconCode] || "bi-question-circle-fill text-danger";
+        }
+    </script>
+</body>
+
+</html>
