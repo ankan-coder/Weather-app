@@ -86,9 +86,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter) - your.email@example.com
+Your Name - [@your_twitter](https://x.com/ankan_chkrbrty) - work.ankanchakraborty@gmail.com
 
-Project Link: [https://github.com/your-username/weather-dashboard](https://github.com/your-username/weather-dashboard)
+Project Link: [https://github.com/ankan-coder/weather-dashboard](https://github.com/your-username/weather-dashboard)
 
 ---
 
