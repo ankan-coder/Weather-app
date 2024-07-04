@@ -88,4 +88,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Your Name - [@Ankan Chakraborty](https://x.com/ankan_chkrbrty) - work.ankanchakraborty@gmail.com
 
-Project Link: [https://github.com/ankan-coder/weather-dashboard](https://github.com/ankan-coder/weather-dashboard)
+Project Link: [https://github.com/ankan-coder/Weather-app](https://github.com/ankan-coder/Weather-app)
